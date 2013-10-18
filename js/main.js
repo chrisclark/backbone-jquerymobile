@@ -60,11 +60,14 @@ var AppRouter = Backbone.Router.extend({
         //jQuery mobile's default back button will not work correctly, so we need to explicitly
         //set the back button location here. This is a fairly brutal hack and makes dialogs a lot less reusable
         //but works in a pinch.
-        return $('a[title="Close"]').attr("href", "#page1");
+        //return $('a[title="Close"]').attr("href", "#page1");
     },
 
     changePage: function(page, role) {
-        $(page.el).attr('data-role', (role != null ? role : 'page'));
+        if (typeof role === 'undefined' || (role == null)) {
+            role = 'page';
+        }
+        $(page.el).attr('data-role', role);
         page.render();
         $('body').append($(page.el));
         return $.mobile.changePage($(page.el), {
