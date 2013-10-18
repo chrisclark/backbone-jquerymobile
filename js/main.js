@@ -69,8 +69,10 @@ var AppRouter = Backbone.Router.extend({
     }
 });
 
-$(document).ready(function () {
-    console.log('document ready');
+$(function() {
+    $.support.cors = true;
     app = new AppRouter();
-    Backbone.history.start();
+    if (!Backbone.History.started) { //this 'if' can help with test runners, though isn't strictly necessary for the app
+        return Backbone.history.start();
+    }
 });
