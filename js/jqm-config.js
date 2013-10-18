@@ -5,7 +5,7 @@ $(document).bind("mobileinit", function () {
     $.mobile.pushStateEnabled = false;
 
     // Remove page from DOM when it's being replaced
-    $(document).on('pagehide', 'div[data-role="page"]', '', function (event, ui) {
-        $(event.currentTarget).remove();
+    $(document).on('pagehide', 'div[data-role="page"], div[data-role="dialog"]', '', function (event, ui) {
+		$(event.currentTarget).remove();
     });
 });
