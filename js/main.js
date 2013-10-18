@@ -57,6 +57,10 @@ var AppRouter = Backbone.Router.extend({
     page2:function () {
         console.log('#page2');
         this.changePage(new Page2View(), 'dialog');
+        //jQuery mobile's default back button will not work correctly, so we need to explicitly
+        //set the back button location here. This is a fairly brutal hack and makes dialogs a lot less reusable
+        //but works in a pinch.
+        return $('a[title="Close"]').attr("href", "#page1");
     },
 
     changePage: function(page, role) {
@@ -72,7 +76,8 @@ var AppRouter = Backbone.Router.extend({
 $(function() {
     $.support.cors = true;
     app = new AppRouter();
-    if (!Backbone.History.started) { //this 'if' can help with test runners, though isn't strictly necessary for the app
+    //this 'if' can help with test runners (jasmine can sometimes try to load this twice)
+    if (!Backbone.History.started) { 
         return Backbone.history.start();
     }
 });
