@@ -38,11 +38,10 @@ var AppRouter = Backbone.Router.extend({
 
     initialize:function () {
         // Handle back button throughout the application
-        $('.back').live('click', function(event) {
+        $('.back').on('click', function(event) {
             window.history.back();
             return false;
         });
-        this.firstPage = true;
     },
 
     home:function () {
@@ -57,22 +56,17 @@ var AppRouter = Backbone.Router.extend({
 
     page2:function () {
         console.log('#page2');
-        this.changePage(new Page2View());
+        this.changePage(new Page2View(), 'dialog');
     },
 
-    changePage:function (page) {
-        $(page.el).attr('data-role', 'page');
+    changePage: function(page, role) {
+        $(page.el).attr('data-role', (role != null ? role : 'page'));
         page.render();
         $('body').append($(page.el));
-        var transition = $.mobile.defaultPageTransition;
-        // We don't want to slide the first page
-        if (this.firstPage) {
-            transition = 'none';
-            this.firstPage = false;
-        }
-        $.mobile.changePage($(page.el), {changeHash:false, transition: transition});
+        return $.mobile.changePage($(page.el), {
+            changeHash: false
+        });
     }
-
 });
 
 $(document).ready(function () {
